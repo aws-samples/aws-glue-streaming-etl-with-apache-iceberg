@@ -300,6 +300,25 @@ command.
     FROM iceberg_demo_db.iceberg_demo_table;
     </pre>
 
+## Clean Up
+
+1. Stop the glue job by replacing the job name in below command.
+
+   <pre>
+   (.venv) $ JOB_RUN_IDS=$(aws glue get-job-runs \
+              --job-name streaming_data_from_kds_into_iceberg_table | jq -r '.JobRuns[] | select(.JobRunState=="RUNNING") | .Id' \
+              | xargs)
+   (.venv) $ aws glue batch-stop-job-run \
+              --job-name streaming_data_from_kds_into_iceberg_table \
+              --job-run-ids $JOB_RUN_IDS
+   </pre>
+
+2. Delete the CloudFormation stack by running the below command.
+
+   <pre>
+   (.venv) $ cdk destroy --all
+   </pre>
+
 ## Useful commands
 
  * `cdk ls`          list all stacks in the app
