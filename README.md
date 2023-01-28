@@ -227,9 +227,13 @@ command.
       :information_source: If you fail to create the table, give Athena users access permissions on `iceberg_demo_db` through [AWS Lake Formation](https://console.aws.amazon.com/lakeformation/home), or you can grant anyone using Athena to access `iceberg_demo_db` by running the following command:
       <pre>
       (.venv) $ aws lakeformation grant-permissions \
+                --principal DataLakePrincipalIdentifier=arn:aws:iam::<i>{account-id}</i>:user/<i>example-user-id</i> \
+                --permissions CREATE_TABLE DESCRIBE ALTER DROP \
+                --resource '{ "Database": { "Name": "<i>iceberg_demo_db</i>" } }'
+      (.venv) $ aws lakeformation grant-permissions \
               --principal DataLakePrincipalIdentifier=arn:aws:iam::<i>{account-id}</i>:user/<i>example-user-id</i> \
               --permissions SELECT DESCRIBE ALTER INSERT DELETE DROP \
-              --resource '{ "Table": {"DatabaseName": "iceberg_demo_db", "TableWildcard": {}} }'
+              --resource '{ "Table": {"DatabaseName": "<i>iceberg_demo_db</i>", "TableWildcard": {}} }'
       </pre>
 
 8. Run glue job to load data from Kinesis Data Streams into S3
