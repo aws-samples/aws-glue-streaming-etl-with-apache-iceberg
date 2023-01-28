@@ -114,7 +114,7 @@ command.
    </pre>
 3. Define a schema for the streaming data
    <pre>
-   (.venv) $ cdk deploy GlueStreamingSinkToIcebergJobRole GlueSchemaOnKinesisStream
+   (.venv) $ cdk deploy GlueSchemaOnKinesisStream
    </pre>
 
    Running `cdk deploy GlueSchemaOnKinesisStream` command is like that we create a schema manually using the AWS Glue Data Catalog as the following steps:
@@ -176,7 +176,9 @@ command.
    * (step 2) Provision the Glue Streaming Job
 
      <pre>
-     (.venv) $ cdk deploy GlueStreamingSinkToIceberg
+     (.venv) $ cdk deploy GlueStreamingSinkToIcebergJobRole \
+                          GrantLFPermissionsOnGlueJobRole \
+                          GlueStreamingSinkToIceberg
      </pre>
 6. Make sure the glue job to access the Kinesis Data Streams table in the Glue Catalog database, otherwise grant the glue job to permissions
 
@@ -184,7 +186,7 @@ command.
    <pre>
    (.venv) $ aws lakeformation list-permissions | jq -r '.PrincipalResourcePermissions[] | select(.Principal.DataLakePrincipalIdentifier | endswith(":role/GlueStreamingJobRole-Iceberg"))'
    </pre>
-   Also, we can grant the glue job to required permissions by running the following command:
+   If not found, we need manually to grant the glue job to required permissions by running the following command:
    <pre>
    (.venv) $ aws lakeformation grant-permissions \
                --principal DataLakePrincipalIdentifier=arn:aws:iam::<i>{account-id}</i>:role/<i>GlueStreamingJobRole-Iceberg</i> \
