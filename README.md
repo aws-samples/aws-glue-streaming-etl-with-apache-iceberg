@@ -108,7 +108,7 @@ command.
 ## Run Test
 
 1. Set up **Apache Iceberg connector for AWS Glue** to use Apache Iceberg with AWS Glue jobs.
-2. Create a S3 bucket for Apache Iceber table
+2. Create a S3 bucket for Apache Iceberg table
    <pre>
    (.venv) $ cdk deploy IcebergS3Path
    </pre>
